@@ -1,0 +1,12 @@
+<linker>
+	<assembly fullname="Assembly-CSharp">
+		<type fullname="StartUI">
+			<method name="GameStart"/>
+		</type>
+		<type fullname="GameeManager">
+			<method name="StartGame"/>
+			<method name="BackGame"/>
+			<method name="ExitGame"/>
+		</type>
+	</assembly>
+</linker>

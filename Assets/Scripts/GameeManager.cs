@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameeManager : MonoBehaviour
 {
+	//public GameObject[] target;
 
 	public static GameeManager instance;
 	private GameObject startui;
@@ -21,13 +22,30 @@ public class GameeManager : MonoBehaviour
 	private float hightTime;
 	private float currentTime;
 
+
+	public BallSpawn[] ballSpawns;
+
+	private GoogleAD interstital1;
+	private GoogleAD interstital2;
+	private List<GoogleAD> gad;
+	private int count = 0;
+	private int interstitalCount;
+
 	void Awake	()
 	{
 		instance = this;
+		gad = new List<GoogleAD> ();
 	}
 
 	void Start ()
 	{
+//		for (int i = 0; i < target.Length; i++) {
+//			DontDestroyOnLoad (target[i]);
+//		}
+
+		interstitalCount = PlayerPrefs.GetInt ("插屏次数", 0);
+		count = interstitalCount;
+		print (count);
 		startui = GameObject.Find ("Start"); 
 		scoreText	= GameObject.Find ("score").GetComponent<Text> ();
 		hightText = GameObject.Find ("HigthTime").GetComponent<Text> ();
@@ -39,6 +57,15 @@ public class GameeManager : MonoBehaviour
 		ShowcurrentTime ();
 		ShowHigthtime ();
 
+		interstital1 = GameObject.Find ("GoogleADOne").GetComponent<GoogleAD> ();
+		interstital2 = GameObject.Find ("GoogleADTwo").GetComponent<GoogleAD> ();
+		//
+		gad.Add (interstital1);
+		gad.Add (interstital2);
+
+		//初始化广告脚本
+			GADInit ();
+
 	}
 
 
@@ -47,8 +74,9 @@ public class GameeManager : MonoBehaviour
 		if (gameover == false) {
 			
 			time += Time.deltaTime;
-			scoreText.text ="当前："+ (int)time / 60 + ":" + (int)time / 1 + ":" + (int)(time % 1 * 100) / 1 + "";
-			PlayerPrefs.SetFloat ("当前",time);
+			scoreText.text = "当前：" + (int)time / 60 + ":" + (int)time % 60 + ":" + (int)(time % 1 * 100) / 1 + "";
+
+			PlayerPrefs.SetFloat ("当前", time);
 			if (time > hightTime) {
 				PlayerPrefs.SetFloat ("高分", time);
 			}
@@ -58,12 +86,12 @@ public class GameeManager : MonoBehaviour
 
 	void ShowcurrentTime ()//显示当前成绩
 	{
-		currentTimeText.text ="当前："+ (int)currentTime / 60 + "分" + (int)currentTime / 1 + "秒" + (int)(currentTime % 1 * 100) / 1 + "";
+		currentTimeText.text = "当前：" + (int)currentTime / 60 + "分" + (int)currentTime / 1 + "秒" + (int)(currentTime % 1 * 100) / 1 + "";
 	}
 
 	void ShowHigthtime ()//显示最高成绩
 	{
-		hightText.text = "最佳："+(int)hightTime / 60 + "分" + (int)hightTime / 1 + "秒" + (int)(time % 1 * 100) / 1 + "";
+		hightText.text = "最佳：" + (int)hightTime / 60 + "分" + (int)hightTime / 1 + "秒" + (int)(time % 1 * 100) / 1 + "";
 	}
 
 	public void Restart ()
@@ -76,12 +104,15 @@ public class GameeManager : MonoBehaviour
 	public void StartGame ()
 	{
 //		time = 0;
-
+		gad [0].BannerShow ();
 		Instantiate (player, new Vector3 (0f, 0f, 0), Quaternion.identity);
 		startui.gameObject.SetActive (false);
 		hightText.enabled = false;
 		currentTimeText.enabled = false;
 		gameover = false;
+		for (int i = 0; i < ballSpawns.Length; i++) {
+			ballSpawns [i].StartBalls ();
+		}
 	}
 
 	public void BackGame ()
@@ -93,7 +124,42 @@ public class GameeManager : MonoBehaviour
 	{
 		PlayerPrefs.DeleteKey ("当前");
 		Application.Quit ();
+
 	}
 
+
+	void GADInit()
+	{
+		for (int i = 0; i < gad.Count; i++) {
+			gad [i].RequestInterstitial ();
+			gad [i].RequestBanner ();
+			gad [i].BannerHide ();
+		}
+	}
+
+	public void GADInterstitalShow()
+	{
+	    if (count >= gad.Count)
+	    {
+	        GADInit();
+	        count = 0;
+			PlayerPrefs.SetInt ("插屏次数", count);
+
+	    }
+	    else
+	    {
+
+	        gad[count].ShowInterstitial();
+	        print("显示插屏" + count);
+	        count++;
+			PlayerPrefs.SetInt ("插屏次数", count);
+	    }
+	}
+
+	public void GADBannerShow()
+	{
+		gad [0].BannerHide ();
+		gad [1].BannerShow ();
+	}
 
 }

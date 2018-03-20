@@ -6,12 +6,12 @@ PlayerSettings:
   serializedVersion: 12
   productGUID: 13e14a24d7cfd4501b01ebbbedb2186c
   AndroidProfiler: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 0
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: com.bthgame.fjzqq
-  productName: nanjingbrother
+  productName: "\u98DE\u673A\u5927\u6218\u7403\u7403"
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -138,9 +138,10 @@ PlayerSettings:
       depthFormat: 1
   protectGraphicsMemory: 0
   useHDRDisplay: 0
-  targetPixelDensity: 0
+  targetPixelDensity: 30
   resolutionScalingMode: 0
   applicationIdentifier:
+    Android: com.bthgame.fjzqq
     iOS: com.bthgame.fjzqq
   buildNumber: {}
   AndroidBundleVersionCode: 1
@@ -164,7 +165,7 @@ PlayerSettings:
   iOSTargetOSVersionString: 7.0
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
-  tvOSTargetOSVersionString: 
+  tvOSTargetOSVersionString: 9.0
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1
@@ -232,7 +233,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 64ffa92f7edaa4dd08eae892bab1d703, type: 3}
+      m_Icon: {fileID: 2800000, guid: 46bf075bef804470f8239bebe327ea18, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []

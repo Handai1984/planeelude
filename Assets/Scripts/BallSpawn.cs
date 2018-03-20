@@ -5,35 +5,57 @@ using UnityEngine;
 public class BallSpawn : MonoBehaviour
 {
 	public GameObject ball;
-	private float temptime =0f;
-	public float offsetTime =3f;
+
+	public float offsetTime;
+	private int count;
+	private float timecount;
 	void Start ()
 	{
 		
 
-			
 	
 
 	}
 
-	void Update ()
+	void Update()
 	{
-		if (!GameeManager.instance.gameover && Time.time > temptime) {
-			temptime = Time.time+ offsetTime; 
-			BallSpawns ();
+		timecount += Time.deltaTime;
+		if (timecount>50) {
+			count += 5;
+			print (count);
+			timecount = 0f;
 		}
 	}
 
-
-	public  void BallSpawns ()
+	public  void StartBalls()
 	{
-		             			
-		for (int i = 0; i < 10; i++) {
+		StartCoroutine (BallSpawns ());
+
+
+	}
+
+//	public void StopBalls()
+//	{
+//		StopCoroutine (BallSpawns ());
+//	}
+
+
+
+	private  IEnumerator BallSpawns ( )
+	{
+		yield return new WaitForSeconds (1f);    
+		while (!GameeManager.instance.gameover) {
+			
+			for (int i = 0; i < 10+count; i++) {
 				
-			GameObject balls = Instantiate (ball, this.transform.position, Quaternion.identity)as GameObject;
-			Transform ballTrans = balls.GetComponent<Transform> ();
-			ballTrans.SetParent (this.transform);
+				GameObject balls = Instantiate (ball, this.transform.position, Quaternion.identity)as GameObject;
+				Transform ballTrans = balls.GetComponent<Transform> ();
+				ballTrans.SetParent (this.transform);
 				
+			}
+			yield return  new WaitForSeconds (3f);
+
 		}
+
 	}
 }

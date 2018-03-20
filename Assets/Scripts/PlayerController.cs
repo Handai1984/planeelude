@@ -147,6 +147,8 @@ public class PlayerController : MonoBehaviour
 	{
 		GameeManager.instance.gameover = true;
 		anim.SetTrigger ("Die");
+		GameeManager.instance.GADInterstitalShow ();
+		GameeManager.instance.GADBannerShow ();
 		yield return new WaitForSeconds (1f);
 		GameeManager.instance.Restart ();
 	}

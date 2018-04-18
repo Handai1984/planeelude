@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
 	}
 
-	void PlayerMove()
+	void PlayerMove()//飞机移动代码
 	{
 		if (Input.GetMouseButtonDown (0)) {  
 			isMouseDown = true;  
@@ -149,6 +150,8 @@ public class PlayerController : MonoBehaviour
 		anim.SetTrigger ("Die");
 		GameeManager.instance.GADInterstitalShow ();
 		GameeManager.instance.GADBannerShow ();
+		yield return new WaitForSeconds (1f);
+		GC.Collect ();
 		yield return new WaitForSeconds (1f);
 		GameeManager.instance.Restart ();
 	}

@@ -17,9 +17,12 @@ public class PlayerController : MonoBehaviour
 	private  Vector3 prePosition;
 	private Vector3 lastMousePosition = Vector3.zero;
 	private bool isMouseDown = false;
+	private Store store;
 
 	void Start ()
 	{
+		
+		store = GameObject.Find ("storenode").GetComponent<Store> ();
 		anim = GetComponent<Animator> ();
 		//把屏幕宽高转成游戏宽高，进行限制；
 		Vector3 screenPos = new Vector3 (Screen.width, Screen.height, 0);
@@ -136,7 +139,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.gameObject.CompareTag ("Ball")) {
 			print ("hah");
-
+			store.DataSave ();
 			StartCoroutine (Die ());
 
 		}
@@ -148,8 +151,8 @@ public class PlayerController : MonoBehaviour
 	{
 		GameeManager.instance.gameover = true;
 		anim.SetTrigger ("Die");
-		GameeManager.instance.GADInterstitalShow ();
-		GameeManager.instance.GADBannerShow ();
+	
+
 		yield return new WaitForSeconds (1f);
 		GC.Collect ();
 		yield return new WaitForSeconds (1f);
